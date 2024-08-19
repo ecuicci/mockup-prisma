@@ -34,28 +34,58 @@ exports.comenzarFlujo = async(req,res,next) => {
                 }
             };
         }
-
+        //cambiar a nro de tajeta
         if(documento == "33333333"){
             response={ 
                 data: {
-                    "data": "Perdón, no pude encontrar tarjetas con los datos que proporcionaste. Por favor, comunicate al  para más información."   
+                    "data": "Perdon, no pude validar los datos de la tarjeta que ingresaste😔  Escribí los últimos 4 dígitos de la tarjeta por la que querés consultar."   
                 }
                 };
         }else{
+            //cambiar a nro de tajeta
              if(documento == "44444444"){
                 response={ 
-                    data: {
-                            "0": "Ingrese la opcion que desea realizar:", 
-                            "1": "Habilitar tarjetas.",
-                            "2": "Consultar disponibles.",
-                            "3": "Saldo a pagar, cierre y vencimientos.",
-                            "4": "Informar una compra.",
-                            "5": "Ultimos movimientos.",
-                            "6": "Registrar tus tarjetas para viaje."
+                    "data": [
+                        {
+                            "label": "Saldo a pagar, cierre y vencimiento 💲",
+                            "type": "message",
+                            "value": "Saldo a pagar, cierre y vencimiento 💲"
+                        },
+                        {
+                            "label": "Disponibles 💳",
+                            "type": "message",
+                            "value": "Disponibles 💳"
+                        },
+                        {
+                            "label": "Informar una compra 🛒",
+                            "type": "message",
+                            "value": "Informar una compra 🛒"
+                        },
+                        {
+                            "label": "Últimos movimientos 📄",
+                            "type": "message",
+                            "value": "Últimos movimientos 📄"
+                        },
+                        {
+                            "label": "Registrar tus tarjetas para viaje ✈️",
+                            "type": "message",
+                            "value": "Registrar tus tarjetas para viaje ✈️"
+                        },
+                        {
+                            "label": "Habilitar una tarjeta 🔓",
+                            "type": "message",
+                            "value": "Habilitar una tarjeta 🔓"
+                        },
+                        {
+                            "label": "Ninguna de las anteriores",
+                            "type": "message",
+                            "value": "Ninguna de las anteriores"
                         }
+                    ],
                     }
                 }else{
                response={ 
+                //cambiar a texto actual de prisma
                     data: {
                      "data": "👉 Para comenzar a utilizar esta tarjeta primero debes habilitarla. ¿Querés habilitarla ahora? 👇"
                     }
@@ -65,11 +95,6 @@ exports.comenzarFlujo = async(req,res,next) => {
        
 
         }
-
-        
-
-        
-
         res.json(response);
     } catch (error) {
         console.error('Error en el controlador:', error);
@@ -127,7 +152,7 @@ exports.enviarCuatroDigitos = async(req,res,next) => {
     }
 }
 
-exports.respuestaSi = async(req,res,next) => {
+exports.respuestaNoHabilitar = async(req,res,next) => {
     try {
      
 
@@ -136,7 +161,7 @@ exports.respuestaSi = async(req,res,next) => {
 
         response={ 
             data: {
-                    "data": "Tu tarjeta ha sido habilitada exitosamente, puedes comenzar a utilizarla desde este momento."
+                    "data": "¿Puedo ayudarte con algo mas?"
                 }
             };
         res.json(response);
@@ -145,6 +170,83 @@ exports.respuestaSi = async(req,res,next) => {
         res.status(500).json({ error: 'Error interno del servidor' });
     }
 }
+
+exports.salir = async(req,res,next) => {
+    try {
+     
+
+        var response = "";
+        // Enviar una respuesta JSON
+
+        response={ 
+            data: {
+                    "data": "Hasta pronto! Estoy aca por cualquier consulta"
+                }
+            };
+        res.json(response);
+    } catch (error) {
+        console.error('Error en el controlador:', error);
+        res.status(500).json({ error: 'Error interno del servidor' });
+    }
+}
+
+exports.respuestaSiOK = async(req,res,next) => {
+    try {
+     
+
+        var response = "";
+        // Enviar una respuesta JSON
+
+        response={ 
+            data: {
+                    "data": "A partir de este momento su tarjeta se encuentra habilitada para consumos. Te puedo ayudar con algo mas?"
+                }
+            };
+        res.json(response);
+    } catch (error) {
+        console.error('Error en el controlador:', error);
+        res.status(500).json({ error: 'Error interno del servidor' });
+    }
+}
+
+exports.respuestaSiNoKEnHorario = async(req,res,next) => {
+    try {
+     
+
+        var response = "";
+        // Enviar una respuesta JSON
+
+        response={ 
+            data: {
+                    "data": "No pude habilitar tu tarjeta. No te preocupes te voy a derivar con un agente para asesorarte."
+                }
+            };
+        res.json(response);
+    } catch (error) {
+        console.error('Error en el controlador:', error);
+        res.status(500).json({ error: 'Error interno del servidor' });
+    }
+}
+
+exports.respuestaSiNoKFueraHorario = async(req,res,next) => {
+    try {
+     
+
+        var response = "";
+        // Enviar una respuesta JSON
+
+        response={ 
+            data: {
+                    "data": "No pude habilitar tu tarjeta, por favor comunicate al 4347-0000 para que podamos ayudarte. Gracias por contactarte."
+                }
+            };
+        res.json(response);
+    } catch (error) {
+        console.error('Error en el controlador:', error);
+        res.status(500).json({ error: 'Error interno del servidor' });
+    }
+}
+
 
 exports.respuestaOpc1 = async(req,res,next) => {
     try {
