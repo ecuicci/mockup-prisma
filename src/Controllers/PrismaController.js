@@ -2,8 +2,6 @@ exports.comenzarFlujo = async(req,res,next) => {
     try {
         let tipo, documento, genero;
     
-        console.log("body");
-        console.log(req.query.documento);
      // Verificar si los parámetros están en el cuerpo de la solicitud (POST)
      if (req.method === 'POST' && req.body) {
         tipo = req.body.tipo;
@@ -19,8 +17,7 @@ exports.comenzarFlujo = async(req,res,next) => {
         genero = req.query.genero;
         ultimosCuatroDigitosTar = req.query.ultimosCuatroDigitosTar;
      }
-     console.log("documento");
-     console.log(documento);
+
         var response = "";
         // Enviar una respuesta JSON
 
@@ -35,7 +32,7 @@ exports.comenzarFlujo = async(req,res,next) => {
             };
         }
         //cambiar a nro de tajeta
-        if(documento == "33333333"){
+        if(ultimosCuatroDigitosTar == "3333"){
             response={ 
                 data: {
                     "data": "Perdon, no pude validar los datos de la tarjeta que ingresaste😔  Escribí los últimos 4 dígitos de la tarjeta por la que querés consultar."   
@@ -43,43 +40,33 @@ exports.comenzarFlujo = async(req,res,next) => {
                 };
         }else{
             //cambiar a nro de tajeta
-             if(documento == "44444444"){
+             if(ultimosCuatroDigitosTar == "4444"){
                 response={ 
                     "data": [
                         {
+                            "text_clean": "¡Perfecto! Te puedo ayudar con estos temas: 👇",
+                        },
+                        {
                             "label": "Saldo a pagar, cierre y vencimiento 💲",
-                            "type": "message",
-                            "value": "Saldo a pagar, cierre y vencimiento 💲"
                         },
                         {
                             "label": "Disponibles 💳",
-                            "type": "message",
-                            "value": "Disponibles 💳"
                         },
                         {
                             "label": "Informar una compra 🛒",
-                            "type": "message",
-                            "value": "Informar una compra 🛒"
+
                         },
                         {
                             "label": "Últimos movimientos 📄",
-                            "type": "message",
-                            "value": "Últimos movimientos 📄"
                         },
                         {
                             "label": "Registrar tus tarjetas para viaje ✈️",
-                            "type": "message",
-                            "value": "Registrar tus tarjetas para viaje ✈️"
                         },
                         {
                             "label": "Habilitar una tarjeta 🔓",
-                            "type": "message",
-                            "value": "Habilitar una tarjeta 🔓"
                         },
                         {
                             "label": "Ninguna de las anteriores",
-                            "type": "message",
-                            "value": "Ninguna de las anteriores"
                         }
                     ],
                     }
@@ -138,11 +125,25 @@ exports.enviarCuatroDigitos = async(req,res,next) => {
                     }
                 }
         }else{
-            response={  
+            if(ultimosCuatroDigitosTar=="5678"){//respuesta Si al endpoit
+                response={  
                     data: {
-                        "data": "Tu tarjeta ha sido habilitada exitosamente, puedes comenzar a utilizarla desde este momento."
+                        "data": "A partir de este momento su tarjeta se encuentra habilitada para consumos. ¿Te puedo ayudar con algo más? 👇"
                         }
                     }
+            }if(ultimosCuatroDigitosTar=="9876"){
+                response={  
+                    data: {
+                        "data": "La habilitación de tu tarjeta se procesó hoy pero podrás utilizarla desde las 00 hs. Además, podrás realizar consultas aquí a partir de mañana"
+                        }
+                    }
+            }if(ultimosCuatroDigitosTar=="2345"){//
+                response={  
+                    data: {
+                        "data": "A partir de este momento su tarjeta y la de sus adicionales se encuentra habilitada para consumos."
+                        }
+                    }
+            }
         }
 
         res.json(response);
@@ -180,8 +181,48 @@ exports.salir = async(req,res,next) => {
 
         response={ 
             data: {
-                    "data": "Hasta pronto! Estoy aca por cualquier consulta"
+                    "data": "¡Hasta pronto! Estoy acá por cualquier consulta 👋"
                 }
+            };
+        res.json(response);
+    } catch (error) {
+        console.error('Error en el controlador:', error);
+        res.status(500).json({ error: 'Error interno del servidor' });
+    }
+}
+
+exports.menuInicial = async(req,res,next) => {
+    try {
+     
+
+        var response = "";
+        // Enviar una respuesta JSON
+
+        response={ 
+            "data": [
+                {
+                    "label": "Saldo a pagar, cierre y vencimiento 💲",
+                },
+                {
+                    "label": "Disponibles 💳",
+                },
+                {
+                    "label": "Informar una compra 🛒",
+
+                },
+                {
+                    "label": "Últimos movimientos 📄",
+                },
+                {
+                    "label": "Registrar tus tarjetas para viaje ✈️",
+                },
+                {
+                    "label": "Habilitar una tarjeta 🔓",
+                },
+                {
+                    "label": "Ninguna de las anteriores",
+                }
+            ],
             };
         res.json(response);
     } catch (error) {

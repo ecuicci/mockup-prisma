@@ -32,6 +32,8 @@ router.get('/respuestaOpc1', PrismaController.respuestaOpc1);
 router.post('/respuestaOpc1', PrismaController.respuestaOpc1);
 router.get('/salir', PrismaController.salir);
 router.post('/salir', PrismaController.salir);
+router.get('/menuInicial', PrismaController.menuInicial);
+router.post('/menuInicial', PrismaController.menuInicial);
 
 router.use('/emojis', emojis);
 
